@@ -14,7 +14,7 @@ var UserSchema = new Schema({
 	address: String,
 	history: [{
 		date: Date,
-		paid: {type: number, default: 0},
+		paid: {type: Number, default: 0},
 		//item
 	}]
 });
