@@ -8,12 +8,15 @@ var engine = require('ejs-mate');
 var session = require('express-session');
 var cookieParser = require('cookie-parser');
 var flash = require('express-flash');
-
+var MongoStore = require('connect-mongo')(session);
+var passport = require('passport');
+var secret = require('./config/secret');
 var User = require('./models/user');
+
 
 var app= express();
 
-mongoose.connect('mongodb://root:root@ds045531.mlab.com:45531/ecommerce', function(err) {
+mongoose.connect(secret.database, function(err) {
     if (err) {
         console.log(err);
     } else {
@@ -30,9 +33,12 @@ app.use(cookieParser());
 app.use(session({
     resave: true,
     saveUninitialized: true,
-    secret: "lokesh123**"
+    secret: secret.secretKey,
+    store: new MongoStore({url: secret.database, autoReconnect: true})
 }));
 app.use(flash());
+app.use(passport.initialize());
+app.use(passport.session());
 
 app.engine('ejs', engine);
 app.set('view engine', 'ejs');
@@ -47,7 +53,7 @@ app.use(userRoutes);
 
 
 
-app.listen(3000, function(err) {
+app.listen(secret.port, function(err) {
     if (err) throw err;
 	console.log("Server is Running");
 });
