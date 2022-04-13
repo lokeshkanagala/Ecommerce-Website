@@ -9,7 +9,7 @@
   "author": "Lokesh Kanagala",
   "license": "ISC",
   "dependencies": {
-    "async": "^1.5.0",
+    "async": "^3.2.2",
     "bcrypt-nodejs": "0.0.3",
     "body-parser": "^1.14.2",
     "connect-mongo": "^1.1.0",
